@@ -1,0 +1,2352 @@
+Index: .idea/inspectionProfiles/Project_Default.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/.idea/inspectionProfiles/Project_Default.xml b/.idea/inspectionProfiles/Project_Default.xml
+new file mode 100644
+--- /dev/null	(date 1733877884694)
++++ b/.idea/inspectionProfiles/Project_Default.xml	(date 1733877884694)
+@@ -0,0 +1,32 @@
++<component name="InspectionProjectProfileManager">
++  <profile version="1.0">
++    <option name="myName" value="Project Default" />
++    <inspection_tool class="HtmlUnknownAttribute" enabled="true" level="WARNING" enabled_by_default="true">
++      <option name="myValues">
++        <value>
++          <list size="2">
++            <item index="0" class="java.lang.String" itemvalue="cssErrorClass" />
++            <item index="1" class="java.lang.String" itemvalue="　cssErrorClass" />
++          </list>
++        </value>
++      </option>
++      <option name="myCustomValuesEnabled" value="true" />
++    </inspection_tool>
++    <inspection_tool class="HtmlUnknownTag" enabled="true" level="WARNING" enabled_by_default="true">
++      <option name="myValues">
++        <value>
++          <list size="7">
++            <item index="0" class="java.lang.String" itemvalue="nobr" />
++            <item index="1" class="java.lang.String" itemvalue="noembed" />
++            <item index="2" class="java.lang.String" itemvalue="comment" />
++            <item index="3" class="java.lang.String" itemvalue="noscript" />
++            <item index="4" class="java.lang.String" itemvalue="embed" />
++            <item index="5" class="java.lang.String" itemvalue="script" />
++            <item index="6" class="java.lang.String" itemvalue="option" />
++          </list>
++        </value>
++      </option>
++      <option name="myCustomValuesEnabled" value="true" />
++    </inspection_tool>
++  </profile>
++</component>
+\ No newline at end of file
+Index: src/main/java/ra/emp/model/dto/EmployeeDto.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/java/ra/emp/model/dto/EmployeeDto.java b/src/main/java/ra/emp/model/dto/EmployeeDto.java
+new file mode 100644
+--- /dev/null	(date 1733877884666)
++++ b/src/main/java/ra/emp/model/dto/EmployeeDto.java	(date 1733877884666)
+@@ -0,0 +1,40 @@
++package ra.emp.model.dto;
++
++import lombok.AllArgsConstructor;
++import lombok.Getter;
++import lombok.NoArgsConstructor;
++import lombok.Setter;
++import org.hibernate.validator.constraints.Email;
++import org.hibernate.validator.constraints.NotBlank;
++
++import javax.persistence.Column;
++import javax.validation.constraints.NotNull;
++import javax.validation.constraints.Pattern;
++import javax.validation.constraints.Size;
++
++@AllArgsConstructor
++@NoArgsConstructor
++@Getter
++@Setter
++public class EmployeeDto {
++    @NotBlank(message = "Mã nhân viên không được để trống")
++    @Size(max = 5,message = "Mã nhân viên có nhiều nhất 5 ký tự")
++    private String empId;
++    @NotBlank(message = "Tên nhân viên không được để trống")
++    private String empName;
++    @NotNull(message = "Tuổi không được để trống")
++    private int empAge;
++    private boolean empSex;
++    @NotBlank(message = "Email không được để trống")
++    @Email(message = "Không đúng định dạng email")
++    private String empEmail;
++    @NotBlank(message = "Số điện thoại không được để trống")
++    @Pattern(regexp = "(03|05|08|09)+([0|1|2|5|6|8])+(\\d{7})", message = "Sai định dạng số điện thoại VN")
++    private String empPhone;
++    @NotBlank(message = "Địa chỉ nhân viên không được để trống")
++    private String empAddress;
++    @NotNull(message = "Trạng thái nhân viên không được để trống")
++    private int empStatus;
++    @NotNull(message = "Mã phòng ban không được để trống")
++    private int deptId;
++}
+Index: .idea/dataSources.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/.idea/dataSources.xml b/.idea/dataSources.xml
+new file mode 100644
+--- /dev/null	(date 1733877884657)
++++ b/.idea/dataSources.xml	(date 1733877884657)
+@@ -0,0 +1,17 @@
++<?xml version="1.0" encoding="UTF-8"?>
++<project version="4">
++  <component name="DataSourceManagerImpl" format="xml" multifile-model="true">
++    <data-source source="LOCAL" name="@localhost" uuid="d8d3fbe9-1ac9-4bd9-b9a1-7570b6c769dd">
++      <driver-ref>mysql.8</driver-ref>
++      <synchronize>true</synchronize>
++      <jdbc-driver>com.mysql.cj.jdbc.Driver</jdbc-driver>
++      <jdbc-url>jdbc:mysql://localhost:3306</jdbc-url>
++      <jdbc-additional-properties>
++        <property name="com.intellij.clouds.kubernetes.db.host.port" />
++        <property name="com.intellij.clouds.kubernetes.db.enabled" value="false" />
++        <property name="com.intellij.clouds.kubernetes.db.container.port" />
++      </jdbc-additional-properties>
++      <working-dir>$ProjectFileDir$</working-dir>
++    </data-source>
++  </component>
++</project>
+\ No newline at end of file
+Index: src/main/java/ra/emp/model/entity/Employee.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/java/ra/emp/model/entity/Employee.java b/src/main/java/ra/emp/model/entity/Employee.java
+new file mode 100644
+--- /dev/null	(date 1733879331324)
++++ b/src/main/java/ra/emp/model/entity/Employee.java	(date 1733879331324)
+@@ -0,0 +1,37 @@
++package ra.emp.model.entity;
++
++import lombok.AllArgsConstructor;
++import lombok.Getter;
++import lombok.NoArgsConstructor;
++import lombok.Setter;
++
++import javax.persistence.*;
++
++@Entity
++@AllArgsConstructor
++@NoArgsConstructor
++@Setter
++@Getter
++@Table(name="employee")
++public class Employee {
++    @Id
++    @Column(name="emp_id",columnDefinition = "char(5)")
++    private String empId;
++    @Column(name="emp_name",columnDefinition = "varchar(50)",nullable = false)
++    private String empName;
++    @Column(name="emp_age",nullable = false)
++    private int empAge;
++    @Column(name="emp_sex")
++    private boolean empSex;
++    @Column(name="emp_email",columnDefinition = "varchar(50)",nullable = false, unique = true)
++    private String empEmail;
++    @Column(name="emp_phone",columnDefinition = "varchar(10)",nullable = false, unique = true)
++    private String empPhone;
++    @Column(name="emp_address",columnDefinition = "text",nullable = false)
++    private String empAddress;
++    @Column(name="emp_status")
++    private int empStatus;
++    @ManyToOne
++    @JoinColumn(name="dept_id",referencedColumnName = "dept_id")
++    private Department department;
++}
+Index: src/main/java/ra/emp/model/entity/Department.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/java/ra/emp/model/entity/Department.java b/src/main/java/ra/emp/model/entity/Department.java
+new file mode 100644
+--- /dev/null	(date 1733877884665)
++++ b/src/main/java/ra/emp/model/entity/Department.java	(date 1733877884665)
+@@ -0,0 +1,31 @@
++package ra.emp.model.entity;
++
++import lombok.AllArgsConstructor;
++import lombok.Getter;
++import lombok.NoArgsConstructor;
++import lombok.Setter;
++
++import javax.persistence.*;
++import java.util.ArrayList;
++import java.util.List;
++
++@Entity
++@Table(name="Department")
++@AllArgsConstructor
++@NoArgsConstructor
++@Getter
++@Setter
++public class Department {
++    @Id
++    @Column(name="dept_id")
++    @GeneratedValue(strategy=GenerationType.IDENTITY)
++    private int deptId;
++    @Column(name="dept_name",columnDefinition = "varchar(100)", nullable = false,unique = true)
++    private String deptName;
++    @Column(name="dept_no",columnDefinition = "char(4)", nullable = false)
++    private int deptNo;
++    @Column(name="dept_status",nullable = false)
++    private boolean deptStatus = true;
++    @OneToMany(mappedBy = "department")
++    private List<Employee> listEmployees=new ArrayList<>();
++}
+Index: src/main/java/ra/emp/model/dto/DepartmentDto.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/java/ra/emp/model/dto/DepartmentDto.java b/src/main/java/ra/emp/model/dto/DepartmentDto.java
+new file mode 100644
+--- /dev/null	(date 1733877884647)
++++ b/src/main/java/ra/emp/model/dto/DepartmentDto.java	(date 1733877884647)
+@@ -0,0 +1,19 @@
++package ra.emp.model.dto;
++
++import lombok.*;
++import org.hibernate.validator.constraints.NotBlank;
++
++import javax.validation.constraints.Min;
++import javax.validation.constraints.NotNull;
++
++@AllArgsConstructor
++@NoArgsConstructor
++@Setter
++@Getter
++public class DepartmentDto {
++    @NotBlank(message = "Tên phòng ban không được để trống")
++    private String deptName;
++    @NotNull(message = "Department number cannot be null")
++    @Min(value = 1, message = "Department number must be greater than or equal to 1")
++    private int deptNo;
++}
+Index: src/main/java/ra/emp/config/AppConfig.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/java/ra/emp/config/AppConfig.java b/src/main/java/ra/emp/config/AppConfig.java
+new file mode 100644
+--- /dev/null	(date 1733877884669)
++++ b/src/main/java/ra/emp/config/AppConfig.java	(date 1733877884669)
+@@ -0,0 +1,95 @@
++package ra.emp.config;
++
++import org.springframework.beans.factory.annotation.Qualifier;
++import org.springframework.context.annotation.Bean;
++import org.springframework.context.annotation.ComponentScan;
++import org.springframework.context.annotation.Configuration;
++import org.springframework.jdbc.datasource.DriverManagerDataSource;
++import org.springframework.orm.jpa.JpaTransactionManager;
++import org.springframework.orm.jpa.JpaVendorAdapter;
++import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
++import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
++import org.springframework.transaction.PlatformTransactionManager;
++import org.springframework.transaction.annotation.EnableTransactionManagement;
++import org.springframework.web.servlet.config.annotation.EnableWebMvc;
++import org.thymeleaf.spring5.SpringTemplateEngine;
++import org.thymeleaf.spring5.templateresolver.SpringResourceTemplateResolver;
++import org.thymeleaf.spring5.view.ThymeleafViewResolver;
++import org.thymeleaf.templatemode.TemplateMode;
++
++import javax.persistence.EntityManager;
++import javax.persistence.EntityManagerFactory;
++import javax.sql.DataSource;
++import java.util.Properties;
++
++@Configuration
++@EnableWebMvc
++@EnableTransactionManagement
++@ComponentScan(basePackages = {"ra.emp.controller","ra.emp.service.imp","ra.emp.repository.imp"})
++public class AppConfig {
++    @Bean
++    public SpringResourceTemplateResolver templateResolver() {
++        SpringResourceTemplateResolver resolver = new SpringResourceTemplateResolver();
++        resolver.setPrefix("/views/");
++        resolver.setSuffix(".html");
++        resolver.setTemplateMode(TemplateMode.HTML);
++        resolver.setCharacterEncoding("UTF-8");
++        return resolver;
++    }
++    @Bean
++    public SpringTemplateEngine templateEngine() {
++        SpringTemplateEngine engine = new SpringTemplateEngine();
++        engine.setTemplateResolver(templateResolver());
++        return engine;
++    }
++    @Bean
++    public ThymeleafViewResolver thymeleafViewResolver() {
++        ThymeleafViewResolver viewResolver = new ThymeleafViewResolver();
++        viewResolver.setTemplateEngine(templateEngine());
++        viewResolver.setCharacterEncoding("UTF-8");
++        viewResolver.setContentType("UTF-8");
++        return viewResolver;
++    }
++    @Bean
++    public DataSource dataSource() {
++        DriverManagerDataSource dataSource = new DriverManagerDataSource();
++        dataSource.setDriverClassName("com.mysql.jdbc.Driver");
++        dataSource.setUrl("jdbc:mysql://localhost:3306/emp?createDatabaseIfNotExist=true");
++        dataSource.setUsername("root");
++        dataSource.setPassword("tinhtam143");
++        return dataSource;
++    }
++    @Bean
++    public Properties additonalProperties() {
++        Properties properties = new Properties();
++        properties.setProperty("hibernate.hbm2ddl.auto", "update");
++        properties.setProperty("hibernate.dialect", "org.hibernate.dialect.MySQL8Dialect");
++        properties.setProperty("hibernate.show_sql", "true");
++        return properties;
++    }
++    @Bean
++    public LocalContainerEntityManagerFactoryBean entityManagerFactory() {
++        LocalContainerEntityManagerFactoryBean entityManagerFactory = new LocalContainerEntityManagerFactoryBean();
++        entityManagerFactory.setDataSource(dataSource());
++        entityManagerFactory.setPackagesToScan("ra.emp.model");
++        JpaVendorAdapter vendorAdapter = new HibernateJpaVendorAdapter();
++        entityManagerFactory.setJpaVendorAdapter(vendorAdapter);
++        entityManagerFactory.setJpaProperties(additonalProperties());
++        return entityManagerFactory;
++    }
++    //5. Cấu hình EntityManager
++    @Bean
++    @Qualifier(value = "entityManager")
++    public EntityManager entityManager(EntityManagerFactory entityManagerFactory) {
++        return entityManagerFactory.createEntityManager();
++    }
++
++    //6. Cấu hình transaction
++    @Bean
++    public PlatformTransactionManager transactionManager(EntityManagerFactory entityManagerFactory) {
++        JpaTransactionManager transactionManager = new JpaTransactionManager();
++        transactionManager.setEntityManagerFactory(entityManagerFactory);
++        return transactionManager;
++    }
++
++}
+Index: src/main/java/ra/emp/model/mapper/DepartmentMapper.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/java/ra/emp/model/mapper/DepartmentMapper.java b/src/main/java/ra/emp/model/mapper/DepartmentMapper.java
+new file mode 100644
+--- /dev/null	(date 1733877884630)
++++ b/src/main/java/ra/emp/model/mapper/DepartmentMapper.java	(date 1733877884630)
+@@ -0,0 +1,13 @@
++package ra.emp.model.mapper;
++
++import ra.emp.model.dto.DepartmentDto;
++import ra.emp.model.entity.Department;
++
++public class DepartmentMapper {
++    public static Department mapDtoToEntity(DepartmentDto dto) {
++        Department department = new Department();
++        department.setDeptName(dto.getDeptName());
++        department.setDeptNo(dto.getDeptNo());
++        return department;
++    }
++}
+Index: gradle/wrapper/gradle-wrapper.properties
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>ISO-8859-1
+===================================================================
+diff --git a/gradle/wrapper/gradle-wrapper.properties b/gradle/wrapper/gradle-wrapper.properties
+new file mode 100644
+--- /dev/null	(date 1733877884696)
++++ b/gradle/wrapper/gradle-wrapper.properties	(date 1733877884696)
+@@ -0,0 +1,5 @@
++distributionBase=GRADLE_USER_HOME
++distributionPath=wrapper/dists
++distributionUrl=https\://services.gradle.org/distributions/gradle-8.8-bin.zip
++zipStoreBase=GRADLE_USER_HOME
++zipStorePath=wrapper/dists
+Index: gradlew
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/gradlew b/gradlew
+new file mode 100644
+--- /dev/null	(date 1733877884678)
++++ b/gradlew	(date 1733877884678)
+@@ -0,0 +1,234 @@
++#!/bin/sh
++
++#
++# Copyright © 2015-2021 the original authors.
++#
++# Licensed under the Apache License, Version 2.0 (the "License");
++# you may not use this file except in compliance with the License.
++# You may obtain a copy of the License at
++#
++#      https://www.apache.org/licenses/LICENSE-2.0
++#
++# Unless required by applicable law or agreed to in writing, software
++# distributed under the License is distributed on an "AS IS" BASIS,
++# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
++# See the License for the specific language governing permissions and
++# limitations under the License.
++#
++
++##############################################################################
++#
++#   Gradle start up script for POSIX generated by Gradle.
++#
++#   Important for running:
++#
++#   (1) You need a POSIX-compliant shell to run this script. If your /bin/sh is
++#       noncompliant, but you have some other compliant shell such as ksh or
++#       bash, then to run this script, type that shell name before the whole
++#       command line, like:
++#
++#           ksh Gradle
++#
++#       Busybox and similar reduced shells will NOT work, because this script
++#       requires all of these POSIX shell features:
++#         * functions;
++#         * expansions «$var», «${var}», «${var:-default}», «${var+SET}»,
++#           «${var#prefix}», «${var%suffix}», and «$( cmd )»;
++#         * compound commands having a testable exit status, especially «case»;
++#         * various built-in commands including «command», «set», and «ulimit».
++#
++#   Important for patching:
++#
++#   (2) This script targets any POSIX shell, so it avoids extensions provided
++#       by Bash, Ksh, etc; in particular arrays are avoided.
++#
++#       The "traditional" practice of packing multiple parameters into a
++#       space-separated string is a well documented source of bugs and security
++#       problems, so this is (mostly) avoided, by progressively accumulating
++#       options in "$@", and eventually passing that to Java.
++#
++#       Where the inherited environment variables (DEFAULT_JVM_OPTS, JAVA_OPTS,
++#       and GRADLE_OPTS) rely on word-splitting, this is performed explicitly;
++#       see the in-line comments for details.
++#
++#       There are tweaks for specific operating systems such as AIX, CygWin,
++#       Darwin, MinGW, and NonStop.
++#
++#   (3) This script is generated from the Groovy template
++#       https://github.com/gradle/gradle/blob/master/subprojects/plugins/src/main/resources/org/gradle/api/internal/plugins/unixStartScript.txt
++#       within the Gradle project.
++#
++#       You can find Gradle at https://github.com/gradle/gradle/.
++#
++##############################################################################
++
++# Attempt to set APP_HOME
++
++# Resolve links: $0 may be a link
++app_path=$0
++
++# Need this for daisy-chained symlinks.
++while
++    APP_HOME=${app_path%"${app_path##*/}"}  # leaves a trailing /; empty if no leading path
++    [ -h "$app_path" ]
++do
++    ls=$( ls -ld "$app_path" )
++    link=${ls#*' -> '}
++    case $link in             #(
++      /*)   app_path=$link ;; #(
++      *)    app_path=$APP_HOME$link ;;
++    esac
++done
++
++APP_HOME=$( cd "${APP_HOME:-./}" && pwd -P ) || exit
++
++APP_NAME="Gradle"
++APP_BASE_NAME=${0##*/}
++
++# Add default JVM options here. You can also use JAVA_OPTS and GRADLE_OPTS to pass JVM options to this script.
++DEFAULT_JVM_OPTS='"-Xmx64m" "-Xms64m"'
++
++# Use the maximum available, or set MAX_FD != -1 to use that value.
++MAX_FD=maximum
++
++warn () {
++    echo "$*"
++} >&2
++
++die () {
++    echo
++    echo "$*"
++    echo
++    exit 1
++} >&2
++
++# OS specific support (must be 'true' or 'false').
++cygwin=false
++msys=false
++darwin=false
++nonstop=false
++case "$( uname )" in                #(
++  CYGWIN* )         cygwin=true  ;; #(
++  Darwin* )         darwin=true  ;; #(
++  MSYS* | MINGW* )  msys=true    ;; #(
++  NONSTOP* )        nonstop=true ;;
++esac
++
++CLASSPATH=$APP_HOME/gradle/wrapper/gradle-wrapper.jar
++
++
++# Determine the Java command to use to start the JVM.
++if [ -n "$JAVA_HOME" ] ; then
++    if [ -x "$JAVA_HOME/jre/sh/java" ] ; then
++        # IBM's JDK on AIX uses strange locations for the executables
++        JAVACMD=$JAVA_HOME/jre/sh/java
++    else
++        JAVACMD=$JAVA_HOME/bin/java
++    fi
++    if [ ! -x "$JAVACMD" ] ; then
++        die "ERROR: JAVA_HOME is set to an invalid directory: $JAVA_HOME
++
++Please set the JAVA_HOME variable in your environment to match the
++location of your Java installation."
++    fi
++else
++    JAVACMD=java
++    which java >/dev/null 2>&1 || die "ERROR: JAVA_HOME is not set and no 'java' command could be found in your PATH.
++
++Please set the JAVA_HOME variable in your environment to match the
++location of your Java installation."
++fi
++
++# Increase the maximum file descriptors if we can.
++if ! "$cygwin" && ! "$darwin" && ! "$nonstop" ; then
++    case $MAX_FD in #(
++      max*)
++        MAX_FD=$( ulimit -H -n ) ||
++            warn "Could not query maximum file descriptor limit"
++    esac
++    case $MAX_FD in  #(
++      '' | soft) :;; #(
++      *)
++        ulimit -n "$MAX_FD" ||
++            warn "Could not set maximum file descriptor limit to $MAX_FD"
++    esac
++fi
++
++# Collect all arguments for the java command, stacking in reverse order:
++#   * args from the command line
++#   * the main class name
++#   * -classpath
++#   * -D...appname settings
++#   * --module-path (only if needed)
++#   * DEFAULT_JVM_OPTS, JAVA_OPTS, and GRADLE_OPTS environment variables.
++
++# For Cygwin or MSYS, switch paths to Windows format before running java
++if "$cygwin" || "$msys" ; then
++    APP_HOME=$( cygpath --path --mixed "$APP_HOME" )
++    CLASSPATH=$( cygpath --path --mixed "$CLASSPATH" )
++
++    JAVACMD=$( cygpath --unix "$JAVACMD" )
++
++    # Now convert the arguments - kludge to limit ourselves to /bin/sh
++    for arg do
++        if
++            case $arg in                                #(
++              -*)   false ;;                            # don't mess with options #(
++              /?*)  t=${arg#/} t=/${t%%/*}              # looks like a POSIX filepath
++                    [ -e "$t" ] ;;                      #(
++              *)    false ;;
++            esac
++        then
++            arg=$( cygpath --path --ignore --mixed "$arg" )
++        fi
++        # Roll the args list around exactly as many times as the number of
++        # args, so each arg winds up back in the position where it started, but
++        # possibly modified.
++        #
++        # NB: a `for` loop captures its iteration list before it begins, so
++        # changing the positional parameters here affects neither the number of
++        # iterations, nor the values presented in `arg`.
++        shift                   # remove old arg
++        set -- "$@" "$arg"      # push replacement arg
++    done
++fi
++
++# Collect all arguments for the java command;
++#   * $DEFAULT_JVM_OPTS, $JAVA_OPTS, and $GRADLE_OPTS can contain fragments of
++#     shell script including quotes and variable substitutions, so put them in
++#     double quotes to make sure that they get re-expanded; and
++#   * put everything else in single quotes, so that it's not re-expanded.
++
++set -- \
++        "-Dorg.gradle.appname=$APP_BASE_NAME" \
++        -classpath "$CLASSPATH" \
++        org.gradle.wrapper.GradleWrapperMain \
++        "$@"
++
++# Use "xargs" to parse quoted args.
++#
++# With -n1 it outputs one arg per line, with the quotes and backslashes removed.
++#
++# In Bash we could simply go:
++#
++#   readarray ARGS < <( xargs -n1 <<<"$var" ) &&
++#   set -- "${ARGS[@]}" "$@"
++#
++# but POSIX shell has neither arrays nor command substitution, so instead we
++# post-process each arg (as a line of input to sed) to backslash-escape any
++# character that might be a shell metacharacter, then use eval to reverse
++# that process (while maintaining the separation between arguments), and wrap
++# the whole thing up as a single "set" statement.
++#
++# This will of course break if any of these variables contains a newline or
++# an unmatched quote.
++#
++
++eval "set -- $(
++        printf '%s\n' "$DEFAULT_JVM_OPTS $JAVA_OPTS $GRADLE_OPTS" |
++        xargs -n1 |
++        sed ' s~[^-[:alnum:]+,./:=@_]~\\&~g; ' |
++        tr '\n' ' '
++    )" '"$@"'
++
++exec "$JAVACMD" "$@"
+Index: src/main/java/ra/emp/service/imp/EmployeeServiceImp.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/java/ra/emp/service/imp/EmployeeServiceImp.java b/src/main/java/ra/emp/service/imp/EmployeeServiceImp.java
+new file mode 100644
+--- /dev/null	(date 1733923267338)
++++ b/src/main/java/ra/emp/service/imp/EmployeeServiceImp.java	(date 1733923267338)
+@@ -0,0 +1,93 @@
++package ra.emp.service.imp;
++
++import org.springframework.beans.factory.annotation.Autowired;
++import org.springframework.stereotype.Service;
++import ra.emp.model.dto.EmployeeDto;
++import ra.emp.model.entity.Department;
++import ra.emp.model.entity.Employee;
++import ra.emp.repository.IDepartmentRepository;
++import ra.emp.repository.IEmployeeRepository;
++import ra.emp.service.IDepartmentService;
++import ra.emp.service.IEmployeeService;
++
++import javax.persistence.Id;
++import java.util.List;
++@Service
++public class EmployeeServiceImp implements IEmployeeService {
++    @Autowired
++    private IEmployeeRepository employeeRepository;
++    @Autowired
++    private IDepartmentRepository departmentRepository;
++    @Override
++    public List<Employee> findAll() {
++        return employeeRepository.findAll();
++    }
++
++    @Override
++    public boolean add(EmployeeDto requestDto) {
++        Employee employee = new Employee();
++        employee.setEmpId(requestDto.getEmpId());
++        employee.setEmpName(requestDto.getEmpName());
++        employee.setEmpAge(requestDto.getEmpAge());
++        employee.setEmpSex(requestDto.isEmpSex());
++        employee.setEmpEmail(requestDto.getEmpEmail());
++        employee.setEmpPhone(requestDto.getEmpPhone());
++        employee.setEmpAddress(requestDto.getEmpAddress());
++        employee.setEmpStatus(requestDto.getEmpStatus());
++        Department department = departmentRepository.findById(requestDto.getDeptId());
++        employee.setDepartment(department);
++        return employeeRepository.save(employee);
++    }
++    @Override
++    public boolean update(EmployeeDto request) {
++        Employee existingEmployee = employeeRepository.findById(request.getEmpId());
++        if (existingEmployee == null) {
++            throw new IllegalArgumentException("Nhân viên không tồn tại!");
++        }
++
++        Employee employee = employeeRepository.findById(request.getEmpId());
++        employee.setEmpId(request.getEmpId());
++        employee.setEmpName(request.getEmpName());
++        employee.setEmpAge(request.getEmpAge());
++        employee.setEmpSex(request.isEmpSex());
++        employee.setEmpEmail(request.getEmpEmail());
++        employee.setEmpPhone(request.getEmpPhone());
++        employee.setEmpAddress(request.getEmpAddress());
++        employee.setEmpStatus(request.getEmpStatus());
++        Department department = departmentRepository.findById(request.getDeptId());
++        employee.setDepartment(department);
++        return employeeRepository.update(employee);
++    }
++
++
++    @Override
++    public boolean delete(String empId) {
++        return employeeRepository.delete(empId);
++    }
++
++
++    @Override
++    public Employee getById(String empId) {
++        return employeeRepository.findById(empId);
++    }
++
++    @Override
++    public List<Employee> getByDeptId(int deptId) {
++        return employeeRepository.findByDeptId(deptId);
++    }
++
++    @Override
++    public Employee findByEmail(String email) {
++        return employeeRepository.findByEmail(email);
++    }
++
++    @Override
++    public Employee findByPhone(String phone) {
++        return employeeRepository.findByPhone(phone);
++    }
++
++    @Override
++    public List<Employee> findByNameOrEmail(String searchValue) {
++        return employeeRepository.findByNameOrEmail(searchValue);
++    }
++}
+Index: src/main/java/ra/emp/config/WebConfig.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/java/ra/emp/config/WebConfig.java b/src/main/java/ra/emp/config/WebConfig.java
+new file mode 100644
+--- /dev/null	(date 1733877884653)
++++ b/src/main/java/ra/emp/config/WebConfig.java	(date 1733877884653)
+@@ -0,0 +1,28 @@
++package ra.emp.config;
++
++import org.springframework.web.filter.CharacterEncodingFilter;
++import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatcherServletInitializer;
++
++import javax.servlet.Filter;
++
++public class WebConfig extends AbstractAnnotationConfigDispatcherServletInitializer {
++    @Override
++    protected Class<?>[] getRootConfigClasses() {
++        return new Class[0];
++    }
++
++    @Override
++    protected Class<?>[] getServletConfigClasses() {
++        return new Class[]{AppConfig.class};
++    }
++
++    @Override
++    protected String[] getServletMappings() {
++        return new String[]{"/"};
++    }
++    @Override
++    protected Filter[] getServletFilters() {
++        CharacterEncodingFilter filter = new CharacterEncodingFilter("utf-8",true);
++        return new Filter[]{filter};
++    }
++}
+Index: src/main/java/ra/emp/service/IDepartmentService.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/java/ra/emp/service/IDepartmentService.java b/src/main/java/ra/emp/service/IDepartmentService.java
+new file mode 100644
+--- /dev/null	(date 1733877884684)
++++ b/src/main/java/ra/emp/service/IDepartmentService.java	(date 1733877884684)
+@@ -0,0 +1,14 @@
++package ra.emp.service;
++
++import ra.emp.model.dto.DepartmentDto;
++import ra.emp.model.entity.Department;
++
++import java.util.List;
++
++public interface IDepartmentService {
++    List<Department> findAll();
++    Department findById(int deptId);
++    boolean create(DepartmentDto request);
++    boolean update(Department department);
++    boolean delete(int deptId);
++}
+Index: build.gradle
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/build.gradle b/build.gradle
+new file mode 100644
+--- /dev/null	(date 1733877884689)
++++ b/build.gradle	(date 1733877884689)
+@@ -0,0 +1,55 @@
++plugins {
++    id 'java'
++    id 'war'
++}
++
++group 'ra'
++version '1.0-SNAPSHOT'
++
++repositories {
++    mavenCentral()
++}
++
++ext {
++    junitVersion = '5.10.2'
++}
++
++sourceCompatibility = '1.8'
++targetCompatibility = '1.8'
++
++tasks.withType(JavaCompile) {
++    options.encoding = 'UTF-8'
++}
++
++dependencies {
++    compileOnly('javax.servlet:javax.servlet-api:4.0.1')
++    // https://mvnrepository.com/artifact/org.springframework/spring-webmvc
++    implementation 'org.springframework:spring-webmvc:5.3.18'
++    // https://mvnrepository.com/artifact/org.thymeleaf/thymeleaf-spring5
++    implementation 'org.thymeleaf:thymeleaf-spring5:3.0.15.RELEASE'
++    // https://mvnrepository.com/artifact/nz.net.ultraq.thymeleaf/thymeleaf-layout-dialect
++    implementation 'nz.net.ultraq.thymeleaf:thymeleaf-layout-dialect:3.0.0'
++// https://mvnrepository.com/artifact/org.thymeleaf.extras/thymeleaf-extras-java8time
++    implementation 'org.thymeleaf.extras:thymeleaf-extras-java8time:3.0.4.RELEASE'
++    // https://mvnrepository.com/artifact/mysql/mysql-connector-java
++    implementation group: 'mysql', name: 'mysql-connector-java', version: '8.0.28'
++    // https://mvnrepository.com/artifact/org.hibernate/hibernate-core
++    implementation group: 'org.hibernate', name: 'hibernate-core', version: '5.3.20.Final'
++    // https://mvnrepository.com/artifact/org.hibernate/hibernate-entitymanager
++    implementation group: 'org.hibernate', name: 'hibernate-entitymanager', version: '5.3.20.Final'
++    // https://mvnrepository.com/artifact/org.springframework/spring-orm
++    implementation group: 'org.springframework', name: 'spring-orm', version: '5.3.20'
++    // https://mvnrepository.com/artifact/org.projectlombok/lombok
++    compileOnly 'org.projectlombok:lombok:1.18.30'
++    annotationProcessor 'org.projectlombok:lombok:1.18.30'
++    //Validate
++    // https://mvnrepository.com/artifact/org.hibernate/hibernate-validator
++    implementation group: 'org.hibernate', name: 'hibernate-validator', version: '5.3.6.Final'
++
++    testImplementation("org.junit.jupiter:junit-jupiter-api:${junitVersion}")
++    testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:${junitVersion}")
++}
++
++test {
++    useJUnitPlatform()
++}
+\ No newline at end of file
+Index: settings.gradle
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/settings.gradle b/settings.gradle
+new file mode 100644
+--- /dev/null	(date 1733877884670)
++++ b/settings.gradle	(date 1733877884670)
+@@ -0,0 +1,1 @@
++rootProject.name = "employeeManagement"
+\ No newline at end of file
+Index: src/main/java/ra/emp/service/imp/DepartmentServiceImp.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/java/ra/emp/service/imp/DepartmentServiceImp.java b/src/main/java/ra/emp/service/imp/DepartmentServiceImp.java
+new file mode 100644
+--- /dev/null	(date 1733877884645)
++++ b/src/main/java/ra/emp/service/imp/DepartmentServiceImp.java	(date 1733877884645)
+@@ -0,0 +1,41 @@
++package ra.emp.service.imp;
++
++import org.springframework.beans.factory.annotation.Autowired;
++import org.springframework.stereotype.Service;
++import ra.emp.model.dto.DepartmentDto;
++import ra.emp.model.entity.Department;
++import ra.emp.model.mapper.DepartmentMapper;
++import ra.emp.repository.IDepartmentRepository;
++import ra.emp.service.IDepartmentService;
++
++import java.util.List;
++@Service
++public class DepartmentServiceImp implements IDepartmentService {
++    @Autowired
++    private IDepartmentRepository departmentRepository;
++    @Override
++    public List<Department> findAll() {
++        return departmentRepository.findAll();
++    }
++
++    @Override
++    public Department findById(int deptId) {
++        return departmentRepository.findById(deptId);
++    }
++
++    @Override
++    public boolean create(DepartmentDto request) {
++        Department entity = DepartmentMapper.mapDtoToEntity(request);
++        return departmentRepository.save(entity);
++    }
++
++    @Override
++    public boolean update(Department department) {
++        return departmentRepository.update(department);
++    }
++
++    @Override
++    public boolean delete(int deptId) {
++        return departmentRepository.delete(deptId);
++    }
++}
+Index: .gitignore
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/.gitignore b/.gitignore
+new file mode 100644
+--- /dev/null	(date 1733877884654)
++++ b/.gitignore	(date 1733877884654)
+@@ -0,0 +1,42 @@
++.gradle
++build/
++!gradle/wrapper/gradle-wrapper.jar
++!**/src/main/**/build/
++!**/src/test/**/build/
++
++### IntelliJ IDEA ###
++.idea/modules.xml
++.idea/jarRepositories.xml
++.idea/compiler.xml
++.idea/libraries/
++*.iws
++*.iml
++*.ipr
++out/
++!**/src/main/**/out/
++!**/src/test/**/out/
++
++### Eclipse ###
++.apt_generated
++.classpath
++.factorypath
++.project
++.settings
++.springBeans
++.sts4-cache
++bin/
++!**/src/main/**/bin/
++!**/src/test/**/bin/
++
++### NetBeans ###
++/nbproject/private/
++/nbbuild/
++/dist/
++/nbdist/
++/.nb-gradle/
++
++### VS Code ###
++.vscode/
++
++### Mac OS ###
++.DS_Store
+\ No newline at end of file
+Index: src/main/java/ra/emp/service/IEmployeeService.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/java/ra/emp/service/IEmployeeService.java b/src/main/java/ra/emp/service/IEmployeeService.java
+new file mode 100644
+--- /dev/null	(date 1733923267346)
++++ b/src/main/java/ra/emp/service/IEmployeeService.java	(date 1733923267346)
+@@ -0,0 +1,18 @@
++package ra.emp.service;
++
++import ra.emp.model.dto.EmployeeDto;
++import ra.emp.model.entity.Employee;
++
++import java.util.List;
++
++public interface IEmployeeService {
++    List<Employee> findAll();
++    boolean add(EmployeeDto requestDto);
++    boolean update(EmployeeDto requestDto);
++    boolean delete(String empId);
++    Employee getById(String empId);
++    List<Employee> getByDeptId(int deptId);
++    Employee findByEmail(String email);
++    Employee findByPhone(String phone);
++    List<Employee> findByNameOrEmail(String searchValue);
++}
+Index: gradlew.bat
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/gradlew.bat b/gradlew.bat
+new file mode 100644
+--- /dev/null	(date 1733877884633)
++++ b/gradlew.bat	(date 1733877884633)
+@@ -0,0 +1,89 @@
++@rem
++@rem Copyright 2015 the original author or authors.
++@rem
++@rem Licensed under the Apache License, Version 2.0 (the "License");
++@rem you may not use this file except in compliance with the License.
++@rem You may obtain a copy of the License at
++@rem
++@rem      https://www.apache.org/licenses/LICENSE-2.0
++@rem
++@rem Unless required by applicable law or agreed to in writing, software
++@rem distributed under the License is distributed on an "AS IS" BASIS,
++@rem WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
++@rem See the License for the specific language governing permissions and
++@rem limitations under the License.
++@rem
++
++@if "%DEBUG%" == "" @echo off
++@rem ##########################################################################
++@rem
++@rem  Gradle startup script for Windows
++@rem
++@rem ##########################################################################
++
++@rem Set local scope for the variables with windows NT shell
++if "%OS%"=="Windows_NT" setlocal
++
++set DIRNAME=%~dp0
++if "%DIRNAME%" == "" set DIRNAME=.
++set APP_BASE_NAME=%~n0
++set APP_HOME=%DIRNAME%
++
++@rem Resolve any "." and ".." in APP_HOME to make it shorter.
++for %%i in ("%APP_HOME%") do set APP_HOME=%%~fi
++
++@rem Add default JVM options here. You can also use JAVA_OPTS and GRADLE_OPTS to pass JVM options to this script.
++set DEFAULT_JVM_OPTS="-Xmx64m" "-Xms64m"
++
++@rem Find java.exe
++if defined JAVA_HOME goto findJavaFromJavaHome
++
++set JAVA_EXE=java.exe
++%JAVA_EXE% -version >NUL 2>&1
++if "%ERRORLEVEL%" == "0" goto execute
++
++echo.
++echo ERROR: JAVA_HOME is not set and no 'java' command could be found in your PATH.
++echo.
++echo Please set the JAVA_HOME variable in your environment to match the
++echo location of your Java installation.
++
++goto fail
++
++:findJavaFromJavaHome
++set JAVA_HOME=%JAVA_HOME:"=%
++set JAVA_EXE=%JAVA_HOME%/bin/java.exe
++
++if exist "%JAVA_EXE%" goto execute
++
++echo.
++echo ERROR: JAVA_HOME is set to an invalid directory: %JAVA_HOME%
++echo.
++echo Please set the JAVA_HOME variable in your environment to match the
++echo location of your Java installation.
++
++goto fail
++
++:execute
++@rem Setup the command line
++
++set CLASSPATH=%APP_HOME%\gradle\wrapper\gradle-wrapper.jar
++
++
++@rem Execute Gradle
++"%JAVA_EXE%" %DEFAULT_JVM_OPTS% %JAVA_OPTS% %GRADLE_OPTS% "-Dorg.gradle.appname=%APP_BASE_NAME%" -classpath "%CLASSPATH%" org.gradle.wrapper.GradleWrapperMain %*
++
++:end
++@rem End local scope for the variables with windows NT shell
++if "%ERRORLEVEL%"=="0" goto mainEnd
++
++:fail
++rem Set variable GRADLE_EXIT_CONSOLE if you need the _script_ return code instead of
++rem the _cmd.exe /c_ return code!
++if  not "" == "%GRADLE_EXIT_CONSOLE%" exit 1
++exit /b 1
++
++:mainEnd
++if "%OS%"=="Windows_NT" endlocal
++
++:omega
+Index: src/main/java/ra/emp/controller/DepartmentController.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/java/ra/emp/controller/DepartmentController.java b/src/main/java/ra/emp/controller/DepartmentController.java
+new file mode 100644
+--- /dev/null	(date 1733877884692)
++++ b/src/main/java/ra/emp/controller/DepartmentController.java	(date 1733877884692)
+@@ -0,0 +1,91 @@
++package ra.emp.controller;
++
++import org.springframework.beans.factory.annotation.Autowired;
++import org.springframework.stereotype.Controller;
++import org.springframework.ui.Model;
++import org.springframework.validation.BindingResult;
++import org.springframework.web.bind.annotation.*;
++import org.springframework.web.servlet.mvc.support.RedirectAttributes;
++import ra.emp.model.dto.DepartmentDto;
++import ra.emp.model.entity.Department;
++import ra.emp.model.entity.Employee;
++import ra.emp.service.IDepartmentService;
++import ra.emp.service.IEmployeeService;
++
++import javax.validation.Valid;
++import java.util.List;
++
++@Controller
++@RequestMapping("/departmentController")
++public class DepartmentController {
++    @Autowired
++    private IDepartmentService departmentService;
++    @Autowired
++    private IEmployeeService employeeService;
++
++    @GetMapping("/findAll")
++    public String findAll(Model model) {
++        List<Department> listDepartments = departmentService.findAll();
++        model.addAttribute("listDepartments", listDepartments);
++        return "department/list";
++    }
++
++    @GetMapping("/initCreate")
++    public String initCreateDepartment(Model model) {
++        Department department = new Department();
++        model.addAttribute("department", new DepartmentDto());
++        return "department/create";
++    }
++
++    @PostMapping("/create")
++    public String createDepartment(@Valid @ModelAttribute("department") DepartmentDto request,
++                                   BindingResult bindingResult, RedirectAttributes redirectAttributes) {
++        if (bindingResult.hasErrors()) {
++            return "department/create";
++        }
++        try {
++            departmentService.create(request);
++            redirectAttributes.addFlashAttribute("message", "Department created");
++            return "redirect:/departmentController/findAll";
++        }catch (Exception e) {
++            return "redirect:/departmentController/initCreate";
++        }
++    }
++    @GetMapping("/initUpdate")
++    public String initUpdateDepartment(Model model, int deptId) {
++        Department departmentUpdate = departmentService.findById(deptId);
++        model.addAttribute("departmentUpdate", departmentUpdate);
++        return "department/update";
++    }
++    @PostMapping("/update")
++    public String updateDepartment(@Valid @ModelAttribute("department") Department department) {
++        boolean result = departmentService.update(department);
++        if (result) {
++            return "redirect:/departmentController/findAll";
++        }
++        return "error";
++    }
++    @GetMapping("/delete")
++    public String deleteDepartment(@RequestParam("deptId") int deptId, RedirectAttributes redirectAttributes) {
++        try {
++            List<Employee> employeeList = employeeService.getByDeptId(deptId);
++            if (!employeeList.isEmpty()) {
++                redirectAttributes.addFlashAttribute("errorMessage", "Không thể xóa phòng ban vì vẫn còn nhân viên.");
++                return "redirect:/departmentController/findAll";
++            }
++
++            boolean result = departmentService.delete(deptId);
++            if (result) {
++                redirectAttributes.addFlashAttribute("successMessage", "Xóa phòng ban thành công.");
++                return "redirect:/departmentController/findAll";
++            } else {
++                redirectAttributes.addFlashAttribute("errorMessage", "Xóa phòng ban thất bại. Vui lòng thử lại.");
++                return "redirect:/departmentController/findAll";
++            }
++        } catch (Exception e) {
++            redirectAttributes.addFlashAttribute("errorMessage", "Đã xảy ra lỗi: " + e.getMessage());
++            return "redirect:/departmentController/findAll";
++        }
++    }
++
++}
+Index: src/main/java/ra/emp/controller/HomeController.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/java/ra/emp/controller/HomeController.java b/src/main/java/ra/emp/controller/HomeController.java
+new file mode 100644
+--- /dev/null	(date 1733877884656)
++++ b/src/main/java/ra/emp/controller/HomeController.java	(date 1733877884656)
+@@ -0,0 +1,13 @@
++package ra.emp.controller;
++
++import org.springframework.stereotype.Controller;
++import org.springframework.ui.Model;
++import org.springframework.web.bind.annotation.RequestMapping;
++
++@Controller
++public class HomeController {
++    @RequestMapping
++    public String home(Model model) {
++        return "index";
++    }
++}
+Index: src/main/java/ra/emp/controller/EmployeeController.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/java/ra/emp/controller/EmployeeController.java b/src/main/java/ra/emp/controller/EmployeeController.java
+new file mode 100644
+--- /dev/null	(date 1733925902729)
++++ b/src/main/java/ra/emp/controller/EmployeeController.java	(date 1733925902729)
+@@ -0,0 +1,123 @@
++package ra.emp.controller;
++
++import org.springframework.beans.factory.annotation.Autowired;
++import org.springframework.stereotype.Controller;
++import org.springframework.ui.Model;
++import org.springframework.validation.BindingResult;
++import org.springframework.web.bind.annotation.*;
++import org.springframework.web.servlet.mvc.support.RedirectAttributes;
++import ra.emp.model.dto.EmployeeDto;
++import ra.emp.model.entity.Department;
++import ra.emp.model.entity.Employee;
++import ra.emp.service.IDepartmentService;
++import ra.emp.service.IEmployeeService;
++
++import javax.validation.Valid;
++import java.util.List;
++
++@Controller
++@RequestMapping("/employeeController")
++public class EmployeeController {
++    @Autowired
++    private IEmployeeService employeeService;
++    @Autowired
++    private IDepartmentService departmentService;
++
++    @GetMapping("/findAll")
++    public String findAll(Model model) {
++        model.addAttribute("listEmployees", employeeService.findAll());
++        model.addAttribute("listDepartments", departmentService.findAll());
++        return "employee/list";
++    }
++
++    @GetMapping("/initCreate")
++    public String initCreate(Model model) {
++        model.addAttribute("employee", new EmployeeDto());
++        List<Department> listDepartments = departmentService.findAll();
++        model.addAttribute("listDepartments", listDepartments);
++        return "employee/create";
++    }
++
++    @PostMapping("/create")
++    public String createEmployee(@Valid @ModelAttribute("employee") EmployeeDto request, BindingResult bindingResult, RedirectAttributes redirectAttributes) {
++        Employee isExitingEmail = employeeService.findByEmail(request.getEmpEmail());
++        if (isExitingEmail != null && !isExitingEmail.getEmpEmail().equals(request.getEmpEmail())) {
++            redirectAttributes.addFlashAttribute("errorMessage", "Email đã tồn tại");
++        }
++        Employee isExitingPhone = employeeService.findByPhone(request.getEmpPhone());
++        if (isExitingPhone != null && !isExitingPhone.getEmpPhone().equals(request.getEmpPhone())) {
++            redirectAttributes.addFlashAttribute("errorMessage", "Số điện thoại đã tồn tại");
++        }
++        if (bindingResult.hasErrors()) {
++            return "employee/create";
++        }
++        try {
++            employeeService.add(request);
++            return "redirect:/employeeController/findAll";
++        } catch (Exception e) {
++            return "redirect:/employeeController/initCreate";
++        }
++    }
++
++    @GetMapping("/initUpdate")
++    public String initUpdate(String empId, Model model) {
++        Employee empUpdate = employeeService.getById(empId);
++        model.addAttribute("empUpdate", empUpdate);
++        List<Department> listDepartments = departmentService.findAll();
++        model.addAttribute("listDepartments", listDepartments);
++        Department department = departmentService.findById(empUpdate.getDepartment().getDeptId());
++        model.addAttribute("department", department);
++        return "employee/update";
++    }
++
++    @PostMapping("/update")
++    public String updateEmployee(@Valid @ModelAttribute("empUpdate") EmployeeDto request,
++                                 Model model,
++                                 BindingResult bindingResult,
++                                 RedirectAttributes redirectAttributes) {
++        if (bindingResult.hasErrors()) {
++            model.addAttribute("errorMessage", "Dữ liệu không hợp lệ, vui lòng kiểm tra lại.");
++            return "employee/update";
++        }
++
++        Employee isExitingEmail = employeeService.findByEmail(request.getEmpEmail());
++        if (isExitingEmail != null && !isExitingEmail.getEmpId().equals(request.getEmpId())) {
++            redirectAttributes.addFlashAttribute("errorMessage", "Email đã tồn tại!");
++            return "redirect:/employeeController/initUpdate?empId=" + request.getEmpId();
++        }
++
++        Employee isExitingPhone = employeeService.findByPhone(request.getEmpPhone());
++        if (isExitingPhone != null && !isExitingPhone.getEmpId().equals(request.getEmpId())) {
++            redirectAttributes.addFlashAttribute("errorMessage", "Số điện thoại đã tồn tại!");
++            return "redirect:/employeeController/initUpdate?empId=" + request.getEmpId();
++        }
++
++        try {
++            employeeService.update(request);
++            redirectAttributes.addFlashAttribute("successMessage", "Cập nhật nhân viên thành công!");
++            return "redirect:/employeeController/findAll";
++        } catch (IllegalArgumentException e) {
++            redirectAttributes.addFlashAttribute("errorMessage", e.getMessage());
++            return "redirect:/employeeController/initUpdate?empId=" + request.getEmpId();
++        } catch (Exception e) {
++            redirectAttributes.addFlashAttribute("errorMessage", "Đã xảy ra lỗi không xác định.");
++            return "redirect:/employeeController/initUpdate?empId=" + request.getEmpId();
++        }
++    }
++
++    @GetMapping("/delete")
++    public String deleteEmployee(String empId) {
++        boolean result = employeeService.delete(empId);
++        if (result) {
++            return "redirect:/employeeController/findAll";
++        }
++        return "error";
++    }
++    @GetMapping("/findEmployee")
++    public String findEmployee(@RequestParam String searchValue, Model model) {
++        List<Employee> listEmployees = employeeService.findByNameOrEmail("%" + searchValue + "%");
++        model.addAttribute("listEmployees", listEmployees);
++        model.addAttribute("searchValue", searchValue);
++        return "employee/list";
++    }
++}
+\ No newline at end of file
+Index: src/main/java/ra/emp/repository/imp/DepartmentRepositoryImp.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/java/ra/emp/repository/imp/DepartmentRepositoryImp.java b/src/main/java/ra/emp/repository/imp/DepartmentRepositoryImp.java
+new file mode 100644
+--- /dev/null	(date 1733877884687)
++++ b/src/main/java/ra/emp/repository/imp/DepartmentRepositoryImp.java	(date 1733877884687)
+@@ -0,0 +1,60 @@
++package ra.emp.repository.imp;
++
++import org.springframework.stereotype.Repository;
++import ra.emp.model.entity.Department;
++import ra.emp.repository.IDepartmentRepository;
++
++import javax.persistence.EntityManager;
++import javax.persistence.PersistenceContext;
++import javax.transaction.Transactional;
++import java.util.List;
++@Repository
++@Transactional
++public class DepartmentRepositoryImp implements IDepartmentRepository {
++    @PersistenceContext
++    private EntityManager entityManager;
++    @Override
++    public List<Department> findAll() {
++        return entityManager.createQuery("from Department", Department.class).getResultList();
++    }
++
++    @Override
++    public Department findById(int deptId) {
++        return entityManager.createQuery("from Department where deptId=:id", Department.class)
++                .setParameter("id",deptId).getSingleResult();
++    }
++
++    @Override
++    public boolean save(Department department) {
++        try {
++            entityManager.persist(department);
++            return true;
++        }catch (Exception e){
++            e.printStackTrace();
++        }
++        return false;
++    }
++
++    @Override
++    public boolean update(Department department) {
++        try {
++            entityManager.merge(department);
++            return true;
++        }catch (Exception e){
++            e.printStackTrace();
++        }
++        return false;
++    }
++
++    @Override
++    public boolean delete(int deptId) {
++        try {
++            Department deptDelete=findById(deptId);
++            entityManager.remove(deptDelete);
++            return true;
++        }catch (Exception e){
++            e.printStackTrace();
++        }
++        return false;
++    }
++}
+Index: src/main/java/ra/emp/repository/IEmployeeRepository.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/java/ra/emp/repository/IEmployeeRepository.java b/src/main/java/ra/emp/repository/IEmployeeRepository.java
+new file mode 100644
+--- /dev/null	(date 1733921593596)
++++ b/src/main/java/ra/emp/repository/IEmployeeRepository.java	(date 1733921593596)
+@@ -0,0 +1,17 @@
++package ra.emp.repository;
++
++import ra.emp.model.entity.Employee;
++
++import java.util.List;
++
++public interface IEmployeeRepository {
++    List<Employee> findAll();
++    Employee findById(String empId);
++    boolean save(Employee employee);
++    boolean update(Employee employee);
++    boolean delete(String empId);
++    List<Employee> findByDeptId(int deptId);
++    Employee findByEmail(String empEmail);
++    Employee findByPhone(String empPhone);
++    List<Employee> findByNameOrEmail(String searchVale);
++}
+Index: src/main/java/ra/emp/repository/imp/EmployeeRepositoryImp.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/java/ra/emp/repository/imp/EmployeeRepositoryImp.java b/src/main/java/ra/emp/repository/imp/EmployeeRepositoryImp.java
+new file mode 100644
+--- /dev/null	(date 1733925405781)
++++ b/src/main/java/ra/emp/repository/imp/EmployeeRepositoryImp.java	(date 1733925405781)
+@@ -0,0 +1,105 @@
++package ra.emp.repository.imp;
++
++import org.springframework.stereotype.Repository;
++import org.springframework.transaction.annotation.Transactional;
++import ra.emp.model.entity.Employee;
++import ra.emp.repository.IEmployeeRepository;
++
++import javax.persistence.EntityManager;
++import javax.persistence.NoResultException;
++import javax.persistence.PersistenceContext;
++import javax.persistence.TypedQuery;
++import java.util.List;
++
++@Repository
++@Transactional
++public class EmployeeRepositoryImp implements IEmployeeRepository {
++    @PersistenceContext
++    private EntityManager entityManager;
++
++    @Override
++    public List<Employee> findAll() {
++        return entityManager.createQuery("from Employee", Employee.class).getResultList();
++    }
++
++    @Override
++    public Employee findById(String empId) {
++        return entityManager.createQuery("from Employee where empId=:id", Employee.class)
++                .setParameter("id", empId).getSingleResult();
++    }
++
++    @Override
++    public boolean save(Employee employee) {
++        try {
++            entityManager.persist(employee);
++            return true;
++        } catch (Exception e) {
++            e.printStackTrace();
++        }
++        return false;
++    }
++
++    @Override
++    public boolean update(Employee employee) {
++        try {
++            entityManager.merge(employee);
++            return true;
++        } catch (Exception e) {
++            e.printStackTrace();
++        }
++        return false;
++    }
++
++    @Override
++    public boolean delete(String empId) {
++        try {
++            Employee empDelete = findById(empId);
++            entityManager.remove(empDelete);
++            return true;
++        } catch (Exception e) {
++            e.printStackTrace();
++        }
++        return false;
++    }
++
++    @Override
++    public List<Employee> findByDeptId(int deptId) {
++        return entityManager.createQuery(
++                        "from Employee where department.deptId = :id", Employee.class)
++                .setParameter("id", deptId)
++                .getResultList();
++    }
++
++    @Override
++    public Employee findByEmail(String empEmail) {
++        try {
++            return entityManager.createQuery(
++                            "FROM Employee WHERE empEmail = :email", Employee.class)
++                    .setParameter("email", empEmail)
++                    .getSingleResult();
++        } catch (NoResultException e) {
++            return null;
++        }
++    }
++
++    @Override
++    public Employee findByPhone(String empPhone) {
++        try {
++            return entityManager.createQuery(
++                            "FROM Employee WHERE empPhone =:phone", Employee.class)
++                    .setParameter("phone", empPhone)
++                    .getSingleResult();
++        } catch (NoResultException e) {
++            return null;
++        }
++    }
++
++    @Override
++    public List<Employee> findByNameOrEmail(String searchVale) {
++        return entityManager.createQuery("from Employee e " +
++                "where e.empName like :searchVale " +
++                "or e.empEmail like :searchVale",Employee.class)
++                .setParameter("searchVale","%" +searchVale+"%").getResultList();
++    }
++}
++
+Index: src/main/java/ra/emp/repository/IDepartmentRepository.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/java/ra/emp/repository/IDepartmentRepository.java b/src/main/java/ra/emp/repository/IDepartmentRepository.java
+new file mode 100644
+--- /dev/null	(date 1733877884662)
++++ b/src/main/java/ra/emp/repository/IDepartmentRepository.java	(date 1733877884662)
+@@ -0,0 +1,13 @@
++package ra.emp.repository;
++
++import ra.emp.model.entity.Department;
++
++import java.util.List;
++
++public interface IDepartmentRepository {
++    List<Department> findAll();
++    Department findById(int deptId);
++    boolean save(Department department);
++    boolean update(Department department);
++    boolean delete(int deptId);
++}
+Index: src/main/webapp/views/employee/update.html
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/webapp/views/employee/update.html b/src/main/webapp/views/employee/update.html
+new file mode 100644
+--- /dev/null	(date 1733920679989)
++++ b/src/main/webapp/views/employee/update.html	(date 1733920679989)
+@@ -0,0 +1,84 @@
++<!DOCTYPE html>
++<html lang="en" xmlns:th="http://www.thymeleaf.org">
++<head>
++    <meta charset="UTF-8">
++    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
++          integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
++    <title>Update Employee</title>
++    <style>
++        form {
++            width: 80%;
++            padding: 20px;
++            margin: auto;
++        }
++        h3{
++            text-align: center;
++        }
++    </style>
++
++</head>
++<body>
++<h3>Create Employee</h3>
++<form th:action="@{/employeeController/update(empId=${empUpdate.empId})}" method="post">
++    <div th:if="${errorMessage}" class="alert alert-danger">
++        <p th:text="${errorMessage}"></p>
++    </div>
++    <div class="mb-3">
++        <label for="empId" class="form-label">Employee Id</label>
++        <input type="text" class="form-control" th:name="${empUpdate.empId}" id="empId" th:value="${empUpdate.empId}"  readonly>
++    </div>
++    <div class="mb-3">
++        <label for="empName" class="form-label">Employee Name</label>
++        <input type="text" class="form-control" id="empName" th:name="empName" th:value="${empUpdate.empName}">
++    </div>
++    <div class="mb-3">
++        <label for="empAge" class="form-label">Employee Age</label>
++        <input type="number" class="form-control" id="empAge" th:name="empAge" th:value="${empUpdate.empAge}">
++    </div>
++    <div class="mb-3">
++        <label class="form-label">Employee Sex</label><br>
++
++        <input type="radio" id="male" th:name="empSex" value="true"
++               th:checked="${empUpdate.empSex == true}">
++        <label for="male">Male</label><br>
++
++        <input type="radio" id="female" th:name="empSex" value="false"
++               th:checked="${empUpdate.empSex == false}">
++        <label for="female">Female</label><br>
++    </div>
++    <div class="mb-3">
++        <label for="empEmail" class="form-label">Employee Email</label>
++        <input type="text" class="form-control" id="empEmail" th:name="empEmail" th:value="${empUpdate.empEmail}">
++    </div>
++    <div class="mb-3">
++        <label for="empPhone" class="form-label">Employee Phone</label>
++        <input type="text" class="form-control" id="empPhone" th:name="empPhone" th:value="${empUpdate.empPhone}">
++    </div>
++    <div class="mb-3">
++        <label for="empAddress" class="form-label">Employee Address</label>
++        <input type="text" class="form-control" id="empAddress" th:name="empAddress" th:value="${empUpdate.empAddress}">
++    </div>
++    <div class="mb-3">
++        <label for="empStatus" class="form-label">Employee Status</label>
++        <select id="empStatus" th:name="empStatus" th:value="${empUpdate.empStatus}" class="form-select">
++            <option th:value="0" th:selected="${empUpdate.empStatus == 0}" th:text="'Đang làm việc'"></option>
++            <option th:value="1" th:selected="${empUpdate.empStatus == 1}" th:text="'Nghỉ việc'"></option>
++            <option th:value="2" th:selected="${empUpdate.empStatus == 2}" th:text="'Nghỉ chế độ'"></option>
++        </select>
++    </div>
++    <div class="mb-3">
++        <label for="deptId" class="form-label">Department</label>
++        <select id="deptId" name="deptId" th:value="${department.deptId}" class="form-select">
++            <option th:each="dept : ${listDepartments}"
++                    th:value="${dept.deptId}"
++                    th:selected="${dept.deptId == department.deptId}"
++                    th:text="${dept.deptName}">
++            </option>
++        </select>
++    </div>
++    <button type="submit" class="btn btn-primary">Update</button>
++    <a href="/employeeController/findAll" class="btn btn-info">List Employee</a>
++</form>
++
++</body>
++</html>
+\ No newline at end of file
+Index: src/main/webapp/views/employee/list.html
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/webapp/views/employee/list.html b/src/main/webapp/views/employee/list.html
+new file mode 100644
+--- /dev/null	(date 1733926453064)
++++ b/src/main/webapp/views/employee/list.html	(date 1733926453064)
+@@ -0,0 +1,83 @@
++<!DOCTYPE html>
++<html lang="en" xmlns:th="http://www.thymeleaf.org">
++<head>
++    <meta charset="UTF-8">
++    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
++          integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
++    <title>Employee</title>
++</head>
++<body>
++<div class="container">
++
++    <input type="text" id="searchValue" placeholder="Enter employee name or email"/>
++    <input type="submit" value="Search" id="search"/><br><br>
++
++    <a class="btn btn-primary" href="/employeeController/findAll">List Employee</a><br><br>
++
++    <h1 class="mt-4">List Employee</h1>
++
++    <div th:if="${successMessage}" class="alert alert-success" th:text="${successMessage}"></div>
++    <div th:if="${errorMessage}" class="alert alert-danger" th:text="${errorMessage}"></div>
++
++    <table class="table table-striped mt-4">
++        <thead>
++        <tr>
++            <th scope="col">#No</th>
++            <th scope="col">Employee Id</th>
++            <th scope="col">Employee Name</th>
++            <th scope="col">Employee age</th>
++            <th scope="col">Employee sex</th>
++            <th scope="col">Employee email</th>
++            <th scope="col">Employee phone</th>
++            <th scope="col">Employee address</th>
++            <th scope="col">Department Name</th>
++            <th scope="col">Employee status</th>
++            <th scope="col" colspan="2">Action</th>
++        </tr>
++        </thead>
++        <tbody>
++        <tr th:each="emp,loop:${listEmployees}">
++            <th scope="row" th:text="${loop.count}"></th>
++            <td th:text="${emp.empId}"></td>
++            <td th:text="${emp.empName}"></td>
++            <td th:text="${emp.empAge}"></td>
++            <td th:text="${emp.empSex?'Nam':'Nữ'}"></td>
++            <td th:text="${emp.empEmail}"></td>
++            <td th:text="${emp.empPhone}"></td>
++            <td th:text="${emp.empAddress}"></td>
++            <td th:text="${emp.getDepartment().deptName}"></td>
++            <td th:text="${emp.empStatus == 0 ? 'Đang làm việc' : (emp.empStatus == 1 ? 'Nghỉ việc' : 'Nghỉ chế độ')}"></td>
++            <td><a class="btn btn-warning" th:href="@{/employeeController/initUpdate(empId=${emp.empId})}">Edit</a></td>
++            <td><a class="btn btn-danger" th:href="@{/employeeController/delete(empId=${emp.empId})}"
++                   onclick="return confirm('Bạn có chắc muốn xóa không?');">Delete</a></td>
++        </tr>
++        </tbody>
++    </table>
++    <a href="/employeeController/initCreate" class="btn btn-primary mt-4">Create Employee</a>
++</div>
++<script>
++    const searchButton = document.getElementById("search");
++    const searchInput = document.getElementById("searchValue");
++
++    function performSearch() {
++        const searchValue = searchInput.value.trim();
++
++        if (searchValue === "") {
++            alert("Vui lòng nhập từ khóa tìm kiếm");
++            return;
++        }
++        window.location.href = `/employeeController/findEmployee?searchValue=${encodeURIComponent(searchValue)}`;
++    }
++
++    searchButton.addEventListener("click", performSearch);
++    searchInput.addEventListener("keydown", function (event) {
++        if (event.key === "Enter") {
++            performSearch();
++        }
++    });
++</script>
++<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
++        integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
++        crossorigin="anonymous"></script>
++</body>
++</html>
+Index: src/main/webapp/views/employee/create.html
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/webapp/views/employee/create.html b/src/main/webapp/views/employee/create.html
+new file mode 100644
+--- /dev/null	(date 1733900130146)
++++ b/src/main/webapp/views/employee/create.html	(date 1733900130146)
+@@ -0,0 +1,108 @@
++<!DOCTYPE html>
++<html lang="en" xmlns:th="http://www.thymeleaf.org">
++<head>
++    <meta charset="UTF-8">
++    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
++          integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
++    <title>Create Employee</title>
++    <style>
++        form {
++            width: 80%;
++            padding: 20px;
++            margin: auto;
++        }
++    </style>
++</head>
++<body>
++<h3 th:align="center">Create Employee</h3>
++<form action="/employeeController/create" method="post" th:object="${employee}">
++    <div th:if="${errorMessage}" class="alert alert-danger">
++        <p th:text="${errorMessage}"></p>
++    </div>
++    <div class="mb-3">
++        <label for="empId" class="form-label">Employee Id</label>
++        <input type="text" class="form-control" id="empId" th:field="*{empId}">
++        <p th:if="${#fields.hasErrors('empId')}" class="text-danger" th:text="${#fields.errors('empId')}"></p>
++    </div>
++    <div class="mb-3">
++        <label for="empName" class="form-label">Employee Name</label>
++        <input type="text" class="form-control" id="empName" name="empName" th:field="${employee.empName}">
++        <p th:if="${#fields.hasErrors('empName')}" class="text-danger" th:text="${#fields.errors('empName')}"></p>
++    </div>
++    <div class="mb-3">
++        <label for="empAge" class="form-label">Employee Age</label>
++        <input type="number" class="form-control" id="empAge" name="empAge" th:field="${employee.empAge}">
++        <p th:if="${#fields.hasErrors('empAge')}" class="text-danger" th:text="${#fields.errors('empAge')}"></p>
++    </div>
++    <div class="mb-3">
++        <label class="form-label">Employee Sex</label><br>
++
++        <input type="radio" id="male" name="empSex" value="true" th:field="${employee.empSex}">
++        <label for="male">Male</label><br>
++
++        <input type="radio" id="female" name="empSex" value="false" th:field="${employee.empSex}">
++        <label for="female">Female</label><br>
++
++        <p th:if="${#fields.hasErrors('empSex')}" class="text-danger" th:text="${#fields.errors('empSex')}"></p>
++    </div>
++    <div class="mb-3">
++        <label for="empEmail" class="form-label">Employee Email</label>
++        <input type="text" class="form-control" id="empEmail" name="empEmail" th:field="${employee.empEmail}">
++        <p th:if="${#fields.hasErrors('empEmail')}" class="text-danger" th:text="${#fields.errors('empEmail')}"></p>
++        <div th:if="${errorMessage}" class="alert alert-danger">
++            <p th:text="${errorMessage}"></p>
++        </div>
++    </div>
++    <div class="mb-3">
++        <label for="empPhone" class="form-label">Employee Phone</label>
++        <input type="text" class="form-control" id="empPhone" name="empPhone" th:field="${employee.empPhone}">
++        <p th:if="${#fields.hasErrors('empPhone')}" class="text-danger" th:text="${#fields.errors('empPhone')}"></p>
++    </div>
++    <div class="mb-3">
++        <label for="empAddress" class="form-label">Employee Address</label>
++        <input type="text" class="form-control" id="empAddress" name="empAddress" th:field="${employee.empAddress}">
++        <p th:if="${#fields.hasErrors('empAddress')}" class="text-danger" th:text="${#fields.errors('empAddress')}"></p>
++    </div>
++<!--    <div class="mb-3">-->
++<!--        <label for="deptId" class="form-label">Phòng ban:</label><br>-->
++<!--        <select id="deptId" name="deptId" class="form-select" required>-->
++<!--            <option value="0" disabled selected>&#45;&#45; Chọn phòng ban &#45;&#45;</option>-->
++<!--            <th:block th:each="dept : ${listDepartments}">-->
++<!--                <option th:value="${dept.deptId}" th:text="${dept.deptName}"></option>-->
++<!--            </th:block>-->
++<!--        </select>-->
++<!--    </div>-->
++<!--    <div class="mb-3"></div>-->
++<!--    <label for="empStatus" class="form-label">Trạng thái:</label><br>-->
++<!--    <select id="empStatus" name="empStatus" class="form-select" required>-->
++<!--        <option th:selected="${employee.empStatus == 0}" th:value="0">Đang làm việc</option>-->
++<!--        <option th:selected="${employee.empStatus == 1}" th:value="1">Nghỉ việc</option>-->
++<!--        <option th:selected="${employee.empStatus == 2}" th:value="2">Nghỉ chế độ</option>-->
++<!--    </select><br><br>-->
++
++    <div class="mb-3">
++        <label for="empStatus" class="form-label">Employee Status</label>
++        <select id="empStatus" name="empStatus" class="form-select" th:field="*{empStatus}">
++            <option value="0">-- Select Status --</option>
++            <option th:value="0" th:text="'Đang làm việc'"></option>
++            <option th:value="1" th:text="'Nghỉ việc'"></option>
++            <option th:value="2" th:text="'Nghỉ chế độ'"></option>
++        </select>
++        <p th:if="${#fields.hasErrors('empStatus')}" class="text-danger" th:text="${#fields.errors('empStatus')}"></p>
++    </div>
++    <div class="mb-3">
++        <label for="deptId" class="form-label">Department</label>
++        <select id="deptId" th:name="deptId" class="form-select">
++            <option value="0">-- Select Department --</option>
++            <option th:each="dept : ${listDepartments}"
++                    th:value="${dept.deptId}"
++                    th:text="${dept.deptName}">
++            </option>
++        </select>
++    </div>
++    <button type="submit" class="btn btn-primary">Create</button>
++    <a href="/employeeController/findAll" class="btn btn-info">List Employee</a>
++</form>
++
++</body>
++</html>
+\ No newline at end of file
+Index: src/main/webapp/views/department/update.html
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/webapp/views/department/update.html b/src/main/webapp/views/department/update.html
+new file mode 100644
+--- /dev/null	(date 1733884401891)
++++ b/src/main/webapp/views/department/update.html	(date 1733884401891)
+@@ -0,0 +1,38 @@
++<!DOCTYPE html>
++<html lang="en" xmlns:th="http://www.thymeleaf.org">
++<head>
++    <meta charset="UTF-8">
++    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
++    <title>Update Department</title>
++</head>
++<body>
++<form action="/departmentController/update" method="post" th:object="${departmentUpdate}">
++    <div class="mb-3">
++        <label for="deptId" class="form-label">Department ID</label>
++        <input type="text" class="form-control" id="deptId" name="deptId" th:value="${departmentUpdate.deptId}"
++               readonly>
++    </div>
++    <div class="mb-3">
++        <label for="deptName" class="form-label">Department Name</label>
++        <input type="text" class="form-control" id="deptName" name="deptName" th:value="${departmentUpdate.deptName}">
++
++    </div>
++    <div class="mb-3">
++        <label for="deptNo" class="form-label">Department No</label>
++        <input type="number" class="form-control" id="deptNo" name="deptNo" th:value="${departmentUpdate.deptNo}">
++    </div>
++    <div class="mb-3">
++        <label for="active" class="form-label">Status:</label>
++        <input type="radio" id="active" value="true" name="status"
++               th:checked="${departmentUpdate.deptStatus == true}">
++        <label for="active">Active</label>
++        <input type="radio" id="inActive" value="false" name="status"
++               th:checked="${departmentUpdate.deptStatus == false}">
++        <label for="inActive">Inactive</label><br>
++    </div>
++    <button type="submit" class="btn btn-primary">Update</button>
++    <a href="/departmentController/findAll" class="btn btn-info">List Department</a>
++</form>
++
++</body>
++</html>
+\ No newline at end of file
+Index: src/main/webapp/views/error.html
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/webapp/views/error.html b/src/main/webapp/views/error.html
+new file mode 100644
+--- /dev/null	(date 1733877884667)
++++ b/src/main/webapp/views/error.html	(date 1733877884667)
+@@ -0,0 +1,11 @@
++<!DOCTYPE html>
++<html lang="en" xmlns:th="http://www.thymeleaf.org">
++<head>
++    <meta charset="UTF-8">
++    <title>Error</title>
++</head>
++<body>
++<h3 style="color: red">Có lỗi xảy ra trong quá trình xử lý</h3>
++
++</body>
++</html>
+\ No newline at end of file
+Index: src/main/webapp/views/department/list.html
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/webapp/views/department/list.html b/src/main/webapp/views/department/list.html
+new file mode 100644
+--- /dev/null	(date 1733877884651)
++++ b/src/main/webapp/views/department/list.html	(date 1733877884651)
+@@ -0,0 +1,54 @@
++<!DOCTYPE html>
++<html lang="en" xmlns:th="http://www.thymeleaf.org">
++<head>
++    <meta charset="UTF-8">
++    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
++    <title>Department</title>
++</head>
++<body>
++<div class="container">
++    <h1 class="mt-4">List Department</h1>
++
++    <!-- Thông báo -->
++    <div th:if="${successMessage}" class="alert alert-success" th:text="${successMessage}"></div>
++    <div th:if="${errorMessage}" class="alert alert-danger" th:text="${errorMessage}"></div>
++
++    <!-- Bảng danh sách phòng ban -->
++    <table class="table table-striped mt-4">
++        <thead>
++        <tr>
++            <th scope="col">#No</th>
++            <th scope="col">Department Id</th>
++            <th scope="col">Department Name</th>
++            <th scope="col">Department No</th>
++            <th scope="col">Department Status</th>
++            <th scope="col" colspan="2">Action</th>
++        </tr>
++        </thead>
++        <tbody>
++        <tr th:each="dept,loop:${listDepartments}">
++            <th scope="row" th:text="${loop.count}"></th>
++            <td th:text="${dept.deptId}"></td>
++            <td th:text="${dept.deptName}"></td>
++            <td th:text="${dept.deptNo}"></td>
++            <td th:text="${dept.deptStatus ? 'Active' : 'Inactive'}"></td>
++            <td>
++                <a th:href="@{/departmentController/initUpdate(deptId=${dept.deptId})}" class="btn btn-warning">Edit</a>
++            </td>
++            <td>
++                <a th:href="@{/departmentController/delete(deptId=${dept.deptId})}"
++                   onclick="return confirm('Are you sure you want to delete this department?');"
++                   class="btn btn-danger">
++                    Delete
++                </a>
++            </td>
++        </tr>
++        </tbody>
++    </table>
++
++    <a href="/departmentController/initCreate" class="btn btn-primary mt-4">Create Department</a>
++</div>
++
++<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
++</body>
++</html>
+Index: src/main/webapp/views/department/create.html
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/webapp/views/department/create.html b/src/main/webapp/views/department/create.html
+new file mode 100644
+--- /dev/null	(date 1733897174264)
++++ b/src/main/webapp/views/department/create.html	(date 1733897174264)
+@@ -0,0 +1,27 @@
++<!DOCTYPE html>
++<html lang="en" xmlns:th="http://www.thymeleaf.org">
++<head>
++    <meta charset="UTF-8">
++    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
++    <title>Create Department</title>
++</head>
++<body>
++<form action="/departmentController/create" method="post" th:object="${department}">
++    <div class="mb-3">
++        <label for="deptName" class="form-label">Department Name</label>
++        <input type="text" class="form-control" id="deptName" name="deptName" th:field="*{deptName}">
++        <p th:if="${#fields.hasErrors('deptName')}" class="text-danger" ></p>
++
++    </div>
++    <div class="mb-3">
++        <label for="deptNo" class="form-label">Department No</label>
++        <input type="number" class="form-control" id="deptNo" name="deptNo" th:field="${department.deptNo}">
++        <p th:if="${#fields.hasErrors('deptNo')}" class="text-danger" th:text="${#fields.errors('deptNo')}"></p>
++    </div>
++    <button type="submit" class="btn btn-primary">Create</button>
++    <br>
++    <a href="/departmentController/findAll" class="btn btn-info">List Department</a>
++</form>
++
++</body>
++</html>
+\ No newline at end of file
+Index: src/main/webapp/WEB-INF/web.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/webapp/WEB-INF/web.xml b/src/main/webapp/WEB-INF/web.xml
+new file mode 100644
+--- /dev/null	(date 1733877884697)
++++ b/src/main/webapp/WEB-INF/web.xml	(date 1733877884697)
+@@ -0,0 +1,6 @@
++<?xml version="1.0" encoding="UTF-8"?>
++<web-app xmlns="http://xmlns.jcp.org/xml/ns/javaee"
++         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
++         xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_4_0.xsd"
++         version="4.0">
++</web-app>
+\ No newline at end of file
+Index: src/main/webapp/views/index.html
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/webapp/views/index.html b/src/main/webapp/views/index.html
+new file mode 100644
+--- /dev/null	(date 1733877884649)
++++ b/src/main/webapp/views/index.html	(date 1733877884649)
+@@ -0,0 +1,13 @@
++<!DOCTYPE html>
++<html lang="en" xmlns:th="http://www.thymeleaf.org">
++<head>
++  <meta charset="UTF-8">
++  <title>Employee Management</title>
++</head>
++<body>
++<h1>Employee Management</h1>
++<a href="/departmentController/findAll">List Department</a><br>
++<a href="/employeeController/findAll">List Employee</a>
++
++</body>
++</html>
+\ No newline at end of file
+Index: .idea/vcs.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/.idea/vcs.xml b/.idea/vcs.xml
+new file mode 100644
+--- /dev/null	(date 1733877884699)
++++ b/.idea/vcs.xml	(date 1733877884699)
+@@ -0,0 +1,6 @@
++<?xml version="1.0" encoding="UTF-8"?>
++<project version="4">
++  <component name="VcsDirectoryMappings">
++    <mapping directory="$PROJECT_DIR$" vcs="Git" />
++  </component>
++</project>
+\ No newline at end of file
+Index: .idea/misc.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/.idea/misc.xml b/.idea/misc.xml
+new file mode 100644
+--- /dev/null	(date 1733877884674)
++++ b/.idea/misc.xml	(date 1733877884674)
+@@ -0,0 +1,10 @@
++<?xml version="1.0" encoding="UTF-8"?>
++<project version="4">
++  <component name="ExternalStorageConfigurationManager" enabled="true" />
++  <component name="FrameworkDetectionExcludesConfiguration">
++    <file type="web" url="file://$PROJECT_DIR$" />
++  </component>
++  <component name="ProjectRootManager" version="2" languageLevel="JDK_1_8" project-jdk-name="corretto-17" project-jdk-type="JavaSDK">
++    <output url="file://$PROJECT_DIR$/out" />
++  </component>
++</project>
+\ No newline at end of file
+Index: .idea/.gitignore
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/.idea/.gitignore b/.idea/.gitignore
+new file mode 100644
+--- /dev/null	(date 1733877884660)
++++ b/.idea/.gitignore	(date 1733877884660)
+@@ -0,0 +1,8 @@
++# Default ignored files
++/shelf/
++/workspace.xml
++# Editor-based HTTP Client requests
++/httpRequests/
++# Datasource local storage ignored files
++/dataSources/
++/dataSources.local.xml
+Index: .idea/webContexts.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/.idea/webContexts.xml b/.idea/webContexts.xml
+new file mode 100644
+--- /dev/null	(date 1733926453445)
++++ b/.idea/webContexts.xml	(date 1733926453445)
+@@ -0,0 +1,10 @@
++<?xml version="1.0" encoding="UTF-8"?>
++<project version="4">
++  <component name="WebContextManager">
++    <option name="state">
++      <map>
++        <entry key="file://$PROJECT_DIR$/src/main/webapp/views/employee/list.html" value="file://$PROJECT_DIR$/src/main/webapp/views/employee" />
++      </map>
++    </option>
++  </component>
++</project>
+\ No newline at end of file
+Index: .idea/gradle.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/.idea/gradle.xml b/.idea/gradle.xml
+new file mode 100644
+--- /dev/null	(date 1733877884642)
++++ b/.idea/gradle.xml	(date 1733877884642)
+@@ -0,0 +1,16 @@
++<?xml version="1.0" encoding="UTF-8"?>
++<project version="4">
++  <component name="GradleMigrationSettings" migrationVersion="1" />
++  <component name="GradleSettings">
++    <option name="linkedExternalProjectsSettings">
++      <GradleProjectSettings>
++        <option name="externalProjectPath" value="$PROJECT_DIR$" />
++        <option name="modules">
++          <set>
++            <option value="$PROJECT_DIR$" />
++          </set>
++        </option>
++      </GradleProjectSettings>
++    </option>
++  </component>
++</project>
+\ No newline at end of file
+Index: .idea/uiDesigner.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/.idea/uiDesigner.xml b/.idea/uiDesigner.xml
+new file mode 100644
+--- /dev/null	(date 1733877884682)
++++ b/.idea/uiDesigner.xml	(date 1733877884682)
+@@ -0,0 +1,124 @@
++<?xml version="1.0" encoding="UTF-8"?>
++<project version="4">
++  <component name="Palette2">
++    <group name="Swing">
++      <item class="com.intellij.uiDesigner.HSpacer" tooltip-text="Horizontal Spacer" icon="/com/intellij/uiDesigner/icons/hspacer.svg" removable="false" auto-create-binding="false" can-attach-label="false">
++        <default-constraints vsize-policy="1" hsize-policy="6" anchor="0" fill="1" />
++      </item>
++      <item class="com.intellij.uiDesigner.VSpacer" tooltip-text="Vertical Spacer" icon="/com/intellij/uiDesigner/icons/vspacer.svg" removable="false" auto-create-binding="false" can-attach-label="false">
++        <default-constraints vsize-policy="6" hsize-policy="1" anchor="0" fill="2" />
++      </item>
++      <item class="javax.swing.JPanel" icon="/com/intellij/uiDesigner/icons/panel.svg" removable="false" auto-create-binding="false" can-attach-label="false">
++        <default-constraints vsize-policy="3" hsize-policy="3" anchor="0" fill="3" />
++      </item>
++      <item class="javax.swing.JScrollPane" icon="/com/intellij/uiDesigner/icons/scrollPane.svg" removable="false" auto-create-binding="false" can-attach-label="true">
++        <default-constraints vsize-policy="7" hsize-policy="7" anchor="0" fill="3" />
++      </item>
++      <item class="javax.swing.JButton" icon="/com/intellij/uiDesigner/icons/button.svg" removable="false" auto-create-binding="true" can-attach-label="false">
++        <default-constraints vsize-policy="0" hsize-policy="3" anchor="0" fill="1" />
++        <initial-values>
++          <property name="text" value="Button" />
++        </initial-values>
++      </item>
++      <item class="javax.swing.JRadioButton" icon="/com/intellij/uiDesigner/icons/radioButton.svg" removable="false" auto-create-binding="true" can-attach-label="false">
++        <default-constraints vsize-policy="0" hsize-policy="3" anchor="8" fill="0" />
++        <initial-values>
++          <property name="text" value="RadioButton" />
++        </initial-values>
++      </item>
++      <item class="javax.swing.JCheckBox" icon="/com/intellij/uiDesigner/icons/checkBox.svg" removable="false" auto-create-binding="true" can-attach-label="false">
++        <default-constraints vsize-policy="0" hsize-policy="3" anchor="8" fill="0" />
++        <initial-values>
++          <property name="text" value="CheckBox" />
++        </initial-values>
++      </item>
++      <item class="javax.swing.JLabel" icon="/com/intellij/uiDesigner/icons/label.svg" removable="false" auto-create-binding="false" can-attach-label="false">
++        <default-constraints vsize-policy="0" hsize-policy="0" anchor="8" fill="0" />
++        <initial-values>
++          <property name="text" value="Label" />
++        </initial-values>
++      </item>
++      <item class="javax.swing.JTextField" icon="/com/intellij/uiDesigner/icons/textField.svg" removable="false" auto-create-binding="true" can-attach-label="true">
++        <default-constraints vsize-policy="0" hsize-policy="6" anchor="8" fill="1">
++          <preferred-size width="150" height="-1" />
++        </default-constraints>
++      </item>
++      <item class="javax.swing.JPasswordField" icon="/com/intellij/uiDesigner/icons/passwordField.svg" removable="false" auto-create-binding="true" can-attach-label="true">
++        <default-constraints vsize-policy="0" hsize-policy="6" anchor="8" fill="1">
++          <preferred-size width="150" height="-1" />
++        </default-constraints>
++      </item>
++      <item class="javax.swing.JFormattedTextField" icon="/com/intellij/uiDesigner/icons/formattedTextField.svg" removable="false" auto-create-binding="true" can-attach-label="true">
++        <default-constraints vsize-policy="0" hsize-policy="6" anchor="8" fill="1">
++          <preferred-size width="150" height="-1" />
++        </default-constraints>
++      </item>
++      <item class="javax.swing.JTextArea" icon="/com/intellij/uiDesigner/icons/textArea.svg" removable="false" auto-create-binding="true" can-attach-label="true">
++        <default-constraints vsize-policy="6" hsize-policy="6" anchor="0" fill="3">
++          <preferred-size width="150" height="50" />
++        </default-constraints>
++      </item>
++      <item class="javax.swing.JTextPane" icon="/com/intellij/uiDesigner/icons/textPane.svg" removable="false" auto-create-binding="true" can-attach-label="true">
++        <default-constraints vsize-policy="6" hsize-policy="6" anchor="0" fill="3">
++          <preferred-size width="150" height="50" />
++        </default-constraints>
++      </item>
++      <item class="javax.swing.JEditorPane" icon="/com/intellij/uiDesigner/icons/editorPane.svg" removable="false" auto-create-binding="true" can-attach-label="true">
++        <default-constraints vsize-policy="6" hsize-policy="6" anchor="0" fill="3">
++          <preferred-size width="150" height="50" />
++        </default-constraints>
++      </item>
++      <item class="javax.swing.JComboBox" icon="/com/intellij/uiDesigner/icons/comboBox.svg" removable="false" auto-create-binding="true" can-attach-label="true">
++        <default-constraints vsize-policy="0" hsize-policy="2" anchor="8" fill="1" />
++      </item>
++      <item class="javax.swing.JTable" icon="/com/intellij/uiDesigner/icons/table.svg" removable="false" auto-create-binding="true" can-attach-label="false">
++        <default-constraints vsize-policy="6" hsize-policy="6" anchor="0" fill="3">
++          <preferred-size width="150" height="50" />
++        </default-constraints>
++      </item>
++      <item class="javax.swing.JList" icon="/com/intellij/uiDesigner/icons/list.svg" removable="false" auto-create-binding="true" can-attach-label="false">
++        <default-constraints vsize-policy="6" hsize-policy="2" anchor="0" fill="3">
++          <preferred-size width="150" height="50" />
++        </default-constraints>
++      </item>
++      <item class="javax.swing.JTree" icon="/com/intellij/uiDesigner/icons/tree.svg" removable="false" auto-create-binding="true" can-attach-label="false">
++        <default-constraints vsize-policy="6" hsize-policy="6" anchor="0" fill="3">
++          <preferred-size width="150" height="50" />
++        </default-constraints>
++      </item>
++      <item class="javax.swing.JTabbedPane" icon="/com/intellij/uiDesigner/icons/tabbedPane.svg" removable="false" auto-create-binding="true" can-attach-label="false">
++        <default-constraints vsize-policy="3" hsize-policy="3" anchor="0" fill="3">
++          <preferred-size width="200" height="200" />
++        </default-constraints>
++      </item>
++      <item class="javax.swing.JSplitPane" icon="/com/intellij/uiDesigner/icons/splitPane.svg" removable="false" auto-create-binding="false" can-attach-label="false">
++        <default-constraints vsize-policy="3" hsize-policy="3" anchor="0" fill="3">
++          <preferred-size width="200" height="200" />
++        </default-constraints>
++      </item>
++      <item class="javax.swing.JSpinner" icon="/com/intellij/uiDesigner/icons/spinner.svg" removable="false" auto-create-binding="true" can-attach-label="true">
++        <default-constraints vsize-policy="0" hsize-policy="6" anchor="8" fill="1" />
++      </item>
++      <item class="javax.swing.JSlider" icon="/com/intellij/uiDesigner/icons/slider.svg" removable="false" auto-create-binding="true" can-attach-label="false">
++        <default-constraints vsize-policy="0" hsize-policy="6" anchor="8" fill="1" />
++      </item>
++      <item class="javax.swing.JSeparator" icon="/com/intellij/uiDesigner/icons/separator.svg" removable="false" auto-create-binding="false" can-attach-label="false">
++        <default-constraints vsize-policy="6" hsize-policy="6" anchor="0" fill="3" />
++      </item>
++      <item class="javax.swing.JProgressBar" icon="/com/intellij/uiDesigner/icons/progressbar.svg" removable="false" auto-create-binding="true" can-attach-label="false">
++        <default-constraints vsize-policy="0" hsize-policy="6" anchor="0" fill="1" />
++      </item>
++      <item class="javax.swing.JToolBar" icon="/com/intellij/uiDesigner/icons/toolbar.svg" removable="false" auto-create-binding="false" can-attach-label="false">
++        <default-constraints vsize-policy="0" hsize-policy="6" anchor="0" fill="1">
++          <preferred-size width="-1" height="20" />
++        </default-constraints>
++      </item>
++      <item class="javax.swing.JToolBar$Separator" icon="/com/intellij/uiDesigner/icons/toolbarSeparator.svg" removable="false" auto-create-binding="false" can-attach-label="false">
++        <default-constraints vsize-policy="0" hsize-policy="0" anchor="0" fill="1" />
++      </item>
++      <item class="javax.swing.JScrollBar" icon="/com/intellij/uiDesigner/icons/scrollbar.svg" removable="false" auto-create-binding="true" can-attach-label="false">
++        <default-constraints vsize-policy="6" hsize-policy="0" anchor="0" fill="2" />
++      </item>
++    </group>
++  </component>
++</project>
+\ No newline at end of file
